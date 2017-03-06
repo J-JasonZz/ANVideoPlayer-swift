@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ANVideoPlayer" customModule="ANVideoPlayer_swift" customModuleProvider="target">
+            <connections>
+                <outlet property="playerView" destination="vza-2V-QYj" id="wOJ-GC-MKf"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="vza-2V-QYj" customClass="ANVideoPlayerView" customModule="ANVideoPlayer_swift" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FEn-7K-cZg" customClass="ANVideoPlayerLayerView" customModule="ANVideoPlayer_swift" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="FEn-7K-cZg" firstAttribute="leading" secondItem="vza-2V-QYj" secondAttribute="leading" id="VX8-Tn-wVl"/>
+                <constraint firstAttribute="trailing" secondItem="FEn-7K-cZg" secondAttribute="trailing" id="jmZ-zE-be1"/>
+                <constraint firstItem="FEn-7K-cZg" firstAttribute="top" secondItem="vza-2V-QYj" secondAttribute="top" id="nlo-Qn-BIs"/>
+                <constraint firstAttribute="bottom" secondItem="FEn-7K-cZg" secondAttribute="bottom" id="sR3-0e-1Ls"/>
+            </constraints>
+            <connections>
+                <outlet property="playerLayerView" destination="FEn-7K-cZg" id="hQf-Ih-gnT"/>
+            </connections>
+            <point key="canvasLocation" x="220.5" y="-245.5"/>
+        </view>
+    </objects>
+</document>

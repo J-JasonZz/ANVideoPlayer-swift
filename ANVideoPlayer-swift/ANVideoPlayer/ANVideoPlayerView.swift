@@ -37,6 +37,7 @@ class ANVideoPlayerView: UIView {
     // 播放器拖动手势
     var panGesture = UIPanGestureRecognizer.init(target: self, action: #selector(swipePanGestureHandler(_:)))
     
+    @IBOutlet weak var playerLayerView: ANVideoPlayerLayerView!
     
     
     func playerViewTapHandle(_ playerViewTap: UITapGestureRecognizer) {

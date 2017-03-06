@@ -10,11 +10,11 @@ import UIKit
 
 let ScreenBounds = UIScreen.main.bounds
 
-let ANVideoPlayerItemReadyToPlay = "ANVideoPlayerItemReadyToPlay"
-let ANVideoPlayerItemStatusFailed = "ANVideoPlayerItemStatusFailed"
-let ANVideoPlayerDurationDidLoad = "ANVideoPlayerDurationDidLoad"
-let ANVideoPlayerScrubberValueUpdated = "ANVideoPlayerScrubberValueUpdated"
-let ANVideoPlayerItemLoadedTimeRanges = "ANVideoPlayerItemLoadedTimeRanges"
+let ANVideoPlayerItemReadyToPlay = Notification.Name("ANVideoPlayerItemReadyToPlay")
+let ANVideoPlayerItemStatusFailed = Notification.Name("ANVideoPlayerItemStatusFailed")
+let ANVideoPlayerDurationDidLoad = Notification.Name("ANVideoPlayerDurationDidLoad")
+let ANVideoPlayerScrubberValueUpdated = Notification.Name("ANVideoPlayerScrubberValueUpdated")
+let ANVideoPlayerItemLoadedTimeRanges = Notification.Name("ANVideoPlayerItemLoadedTimeRanges")
 
 
 		

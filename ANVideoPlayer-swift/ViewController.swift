@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var player = ANVideoPlayer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -21,7 +23,10 @@ class ViewController: UIViewController {
     }
 
     @IBAction func buttonClick(_ sender: Any) {
-        
+        player.playerView.frame = ScreenBounds
+        player.isLive = false
+        UIApplication.shared.keyWindow?.addSubview(player.playerView)
+        try? player.loadVideo(streamURL: URL.init(string: "http://baobab.wdjcdn.com/14571455324031.mp4"))
     }
 
 }

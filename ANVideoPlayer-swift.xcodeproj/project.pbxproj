@@ -14,6 +14,9 @@
 		A878A55E1E696643005A04DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A878A55C1E696643005A04DE /* LaunchScreen.storyboard */; };
 		A878A5691E696643005A04DE /* ANVideoPlayer_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878A5681E696643005A04DE /* ANVideoPlayer_swiftTests.swift */; };
 		A878A5741E696643005A04DE /* ANVideoPlayer_swiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878A5731E696643005A04DE /* ANVideoPlayer_swiftUITests.swift */; };
+		A8AC6D051E6D3343004FA98C /* ANVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AC6D041E6D3343004FA98C /* ANVideoPlayer.swift */; };
+		A8AC6D071E6D336C004FA98C /* ANVideoPlayer.xib in Resources */ = {isa = PBXBuildFile; fileRef = A8AC6D061E6D336C004FA98C /* ANVideoPlayer.xib */; };
+		A8AC6D091E6D6474004FA98C /* AVPlayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AC6D081E6D6474004FA98C /* AVPlayer+Extension.swift */; };
 		A8F4394E1E69683B004ED1C3 /* ANVideoPlayerLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F4394D1E69683B004ED1C3 /* ANVideoPlayerLayerView.swift */; };
 		A8F439501E696D54004ED1C3 /* ANVideoPlayerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F4394F1E696D54004ED1C3 /* ANVideoPlayerConfig.swift */; };
 		A8F439531E696E10004ED1C3 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F439521E696E10004ED1C3 /* UIView+Extension.swift */; };
@@ -52,6 +55,9 @@
 		A878A56F1E696643005A04DE /* ANVideoPlayer-swiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ANVideoPlayer-swiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A878A5731E696643005A04DE /* ANVideoPlayer_swiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ANVideoPlayer_swiftUITests.swift; sourceTree = "<group>"; };
 		A878A5751E696643005A04DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A8AC6D041E6D3343004FA98C /* ANVideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ANVideoPlayer.swift; sourceTree = "<group>"; };
+		A8AC6D061E6D336C004FA98C /* ANVideoPlayer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ANVideoPlayer.xib; sourceTree = "<group>"; };
+		A8AC6D081E6D6474004FA98C /* AVPlayer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Extension.swift"; sourceTree = "<group>"; };
 		A8F4394D1E69683B004ED1C3 /* ANVideoPlayerLayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ANVideoPlayerLayerView.swift; sourceTree = "<group>"; };
 		A8F4394F1E696D54004ED1C3 /* ANVideoPlayerConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ANVideoPlayerConfig.swift; sourceTree = "<group>"; };
 		A8F439521E696E10004ED1C3 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -143,6 +149,8 @@
 				A8F4394F1E696D54004ED1C3 /* ANVideoPlayerConfig.swift */,
 				A8F4394D1E69683B004ED1C3 /* ANVideoPlayerLayerView.swift */,
 				A8F439561E696F36004ED1C3 /* ANVideoPlayerView.swift */,
+				A8AC6D041E6D3343004FA98C /* ANVideoPlayer.swift */,
+				A8AC6D061E6D336C004FA98C /* ANVideoPlayer.xib */,
 			);
 			path = ANVideoPlayer;
 			sourceTree = "<group>";
@@ -152,6 +160,7 @@
 			children = (
 				A8F439521E696E10004ED1C3 /* UIView+Extension.swift */,
 				A8F439541E696EC3004ED1C3 /* UIColor+Extension.swift */,
+				A8AC6D081E6D6474004FA98C /* AVPlayer+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -264,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A878A55E1E696643005A04DE /* LaunchScreen.storyboard in Resources */,
+				A8AC6D071E6D336C004FA98C /* ANVideoPlayer.xib in Resources */,
 				A878A55B1E696643005A04DE /* Assets.xcassets in Resources */,
 				A878A5591E696643005A04DE /* Main.storyboard in Resources */,
 			);
@@ -291,9 +301,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8F439501E696D54004ED1C3 /* ANVideoPlayerConfig.swift in Sources */,
+				A8AC6D051E6D3343004FA98C /* ANVideoPlayer.swift in Sources */,
 				A878A5561E696643005A04DE /* ViewController.swift in Sources */,
 				A8F4394E1E69683B004ED1C3 /* ANVideoPlayerLayerView.swift in Sources */,
 				A8F439551E696EC3004ED1C3 /* UIColor+Extension.swift in Sources */,
+				A8AC6D091E6D6474004FA98C /* AVPlayer+Extension.swift in Sources */,
 				A8F439531E696E10004ED1C3 /* UIView+Extension.swift in Sources */,
 				A878A5541E696643005A04DE /* AppDelegate.swift in Sources */,
 				A8F439571E696F36004ED1C3 /* ANVideoPlayerView.swift in Sources */,

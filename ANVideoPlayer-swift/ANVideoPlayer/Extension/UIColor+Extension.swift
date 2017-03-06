@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIColor {
+    
     class func colorFromRGB(rgbValue: uint) -> UIColor {
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
