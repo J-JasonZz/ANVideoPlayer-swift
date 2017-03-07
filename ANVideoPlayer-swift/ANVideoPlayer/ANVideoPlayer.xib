@@ -1,40 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ANVideoPlayer" customModule="ANVideoPlayer_swift" customModuleProvider="target">
             <connections>
-                <outlet property="playerView" destination="vza-2V-QYj" id="wOJ-GC-MKf"/>
+                <outlet property="playerView" destination="zR9-kh-zNE" id="L3Q-Yq-8fN"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="vza-2V-QYj" customClass="ANVideoPlayerView" customModule="ANVideoPlayer_swift" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="zR9-kh-zNE" customClass="ANVideoPlayerView" customModule="ANVideoPlayer_swift" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FEn-7K-cZg" customClass="ANVideoPlayerLayerView" customModule="ANVideoPlayer_swift" customModuleProvider="target">
+                <view contentMode="scaleToFill" id="cuN-5q-sTN" customClass="ANVideoPlayerLayerView" customModule="ANVideoPlayer_swift" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
+                <view contentMode="scaleToFill" id="hoz-62-WzD">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ryB-8E-NSa">
+                            <rect key="frame" x="136.5" y="284" width="100" height="100"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" backgroundImage="ANVideoPlayer_pause_big.png"/>
+                            <state key="selected" backgroundImage="ANVideoPlayer_play_big.png"/>
+                            <connections>
+                                <action selector="bigPlayButtonClick:" destination="zR9-kh-zNE" eventType="touchUpInside" id="MR7-gO-twA"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" id="fsS-ct-JVA">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FM4-ZM-h4m">
+                                    <rect key="frame" x="8" y="8" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="ANVideoPlayer_cross.png"/>
+                                    <connections>
+                                        <action selector="closeButtonClick:" destination="zR9-kh-zNE" eventType="touchUpInside" id="yJg-ol-06m"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p3y-pT-rEb">
+                                    <rect key="frame" x="342" y="8" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="ANVideoPlayer_window.png"/>
+                                    <connections>
+                                        <action selector="windowButtonClick:" destination="zR9-kh-zNE" eventType="touchUpInside" id="Bi5-8U-EqM"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="HPT-Mn-wEH">
+                            <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="f0N-5g-lrk">
+                                    <rect key="frame" x="42" y="6" width="227" height="31"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                </slider>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2qA-hN-6OM">
+                                    <rect key="frame" x="331" y="0.0" width="44" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                    <state key="normal" image="ANVideoPlayer_zoom_in.png"/>
+                                    <state key="selected" image="ANVideoPlayer_zoom_out.png"/>
+                                    <connections>
+                                        <action selector="fullScreenButtonClick:" destination="zR9-kh-zNE" eventType="touchUpInside" id="6io-ev-Tbq"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--:--/--:--" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xan-ND-Q8e">
+                                    <rect key="frame" x="280" y="0.0" width="58" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.0099999997764825821" id="FGE-rd-1wn">
+                                    <rect key="frame" x="44" y="21" width="223" height="2"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                </progressView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FYQ-Vf-IFs">
+                                    <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                    <state key="normal" image="ANVideoPlayer_pause.png"/>
+                                    <state key="selected" image="ANVideoPlayer_play.png"/>
+                                    <connections>
+                                        <action selector="playButtonClick:" destination="zR9-kh-zNE" eventType="touchUpInside" id="EXL-Tg-3Pi"/>
+                                    </connections>
+                                </button>
+                                <view contentMode="scaleToFill" id="Hnc-fI-wR9">
+                                    <rect key="frame" x="40" y="13" width="1" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="50W-xg-x4U">
+                                    <rect key="frame" x="55" y="13" width="44" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <state key="normal" image="ANVideoPlayer_onLive.png"/>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" id="Ks2-UN-i9w">
+                    <rect key="frame" x="169" y="315" width="37" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0EA-bS-OB4">
+                    <rect key="frame" x="347" y="8" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="ANVideoPlayer_windowClose.png"/>
+                    <connections>
+                        <action selector="windowCloseButtonClick:" destination="zR9-kh-zNE" eventType="touchUpInside" id="11v-qC-maT"/>
+                    </connections>
+                </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="FEn-7K-cZg" firstAttribute="leading" secondItem="vza-2V-QYj" secondAttribute="leading" id="VX8-Tn-wVl"/>
-                <constraint firstAttribute="trailing" secondItem="FEn-7K-cZg" secondAttribute="trailing" id="jmZ-zE-be1"/>
-                <constraint firstItem="FEn-7K-cZg" firstAttribute="top" secondItem="vza-2V-QYj" secondAttribute="top" id="nlo-Qn-BIs"/>
-                <constraint firstAttribute="bottom" secondItem="FEn-7K-cZg" secondAttribute="bottom" id="sR3-0e-1Ls"/>
-            </constraints>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
-                <outlet property="playerLayerView" destination="FEn-7K-cZg" id="hQf-Ih-gnT"/>
+                <outlet property="activityIndicator" destination="Ks2-UN-i9w" id="MUT-Nh-1GT"/>
+                <outlet property="bigPlayButton" destination="ryB-8E-NSa" id="z2C-Ga-2XO"/>
+                <outlet property="bottomControlOverlay" destination="HPT-Mn-wEH" id="lC2-Zc-Xl9"/>
+                <outlet property="closeButton" destination="FM4-ZM-h4m" id="CSY-DG-Gta"/>
+                <outlet property="controlView" destination="hoz-62-WzD" id="ahf-Hv-7dM"/>
+                <outlet property="fullScreenButton" destination="2qA-hN-6OM" id="4cI-5I-cLR"/>
+                <outlet property="loadedTimeRangesProgress" destination="FGE-rd-1wn" id="CeR-Ag-lh0"/>
+                <outlet property="onLiveButton" destination="50W-xg-x4U" id="X5y-d7-AcA"/>
+                <outlet property="onLiveSpaceView" destination="Hnc-fI-wR9" id="yeG-lH-r4B"/>
+                <outlet property="playButton" destination="FYQ-Vf-IFs" id="XZG-de-zMs"/>
+                <outlet property="playerLayerView" destination="cuN-5q-sTN" id="Gsi-nE-H32"/>
+                <outlet property="scrubber" destination="f0N-5g-lrk" id="ZJs-8I-e1g"/>
+                <outlet property="timeLabel" destination="Xan-ND-Q8e" id="Lm7-u2-NP0"/>
+                <outlet property="topControlOverlay" destination="fsS-ct-JVA" id="ROD-vH-Phu"/>
+                <outlet property="windowButton" destination="p3y-pT-rEb" id="dav-ND-IlC"/>
+                <outlet property="windowCloseButton" destination="0EA-bS-OB4" id="S6D-dM-Bvm"/>
             </connections>
-            <point key="canvasLocation" x="220.5" y="-245.5"/>
+            <point key="canvasLocation" x="245" y="-254"/>
         </view>
     </objects>
+    <resources>
+        <image name="ANVideoPlayer_cross.png" width="17" height="17"/>
+        <image name="ANVideoPlayer_onLive.png" width="44" height="18"/>
+        <image name="ANVideoPlayer_pause.png" width="32" height="32"/>
+        <image name="ANVideoPlayer_pause_big.png" width="74" height="74"/>
+        <image name="ANVideoPlayer_play.png" width="32" height="32"/>
+        <image name="ANVideoPlayer_play_big.png" width="74" height="74"/>
+        <image name="ANVideoPlayer_window.png" width="32" height="32"/>
+        <image name="ANVideoPlayer_windowClose.png" width="20" height="20"/>
+        <image name="ANVideoPlayer_zoom_in.png" width="32" height="32"/>
+        <image name="ANVideoPlayer_zoom_out.png" width="32" height="32"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

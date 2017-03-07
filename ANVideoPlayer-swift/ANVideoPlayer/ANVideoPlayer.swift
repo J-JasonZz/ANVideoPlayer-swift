@@ -23,10 +23,17 @@ enum ANVideoPlayerError: Error {
     case InvalidStreamUrl //无效的链接
 }
 
+protocol ANVideoPlayerDelegate {
+    func videoPlayer(_ videoPlayer: ANVideoPlayer, closeButtonClick closeButton: UIButton)
+}
 
-class ANVideoPlayer: NSObject {
+
+class ANVideoPlayer: NSObject, ANVideoPlayerViewDelegate {
     
     @IBOutlet var playerView: ANVideoPlayerView!
+    
+    var delegate: ANVideoPlayerDelegate?
+    
     
     var player: AVPlayer? {
         willSet {
@@ -53,22 +60,65 @@ class ANVideoPlayer: NSObject {
     
     var state: ANVideoPlayerState = .ANVideoPlayerStateUnknown {
         willSet {
+            switch state {
+            case .ANVideoPlayerStateUnknown:
+                print("")
+            case .ANVideoPlayerStateContentLoading:
+                setLoading(false)
+                print("")
+            case .ANVideoPlayerStateContentPlaying:
+                print("")
+            case .ANVideoPlayerStateContentPaused:
+                playerView.bigPlayButton.isHidden = true
+                print("")
+            case .ANVideoPlayerStateSuspend:
+                print("")
+            case .ANVideoPlayerStateDismissed:
+                print("")
+            case .ANVideoPlayerStateError:
+                print("")
+            }
         }
         
         didSet {
-            
+            print(state)
+            switch state {
+            case .ANVideoPlayerStateUnknown:
+                print("")
+            case .ANVideoPlayerStateContentLoading:
+                setLoading(true)
+                playerView.playButton.isEnabled = false
+                playerView.loadedTimeRangesProgress.isHidden = true
+                print("")
+            case .ANVideoPlayerStateContentPlaying:
+                playerView.playButton.isSelected = false
+                playerView.bigPlayButton.isSelected = false
+                playerView.playButton.isEnabled = true
+                playerView.scrubber.isEnabled = true
+                playerView.loadedTimeRangesProgress.isHidden = isLive
+                player?.play()
+            case .ANVideoPlayerStateContentPaused:
+                playerView.playButton.isSelected = true
+                playerView.bigPlayButton.isSelected = true
+                playerView.bigPlayButton.isHidden = false
+                player?.pause()
+            case .ANVideoPlayerStateSuspend:
+                print("")
+            case .ANVideoPlayerStateDismissed:
+                print("")
+            case .ANVideoPlayerStateError:
+                playerView.playButton.isEnabled = false
+                playerView.scrubber.isEnabled = false
+                player?.pause()
+            }
         }
     }
     
     private var steamUrl: URL?
     
-    static let portraitFrame = CGRect(x: 0, y: 0, width: min(ScreenBounds.size.width, ScreenBounds.size.height), height: max(ScreenBounds.size.width, ScreenBounds.size.height))
+    let portraitFrame = CGRect(x: 0, y: 0, width: min(ScreenBounds.size.width, ScreenBounds.size.height), height: max(ScreenBounds.size.width, ScreenBounds.size.height))
     
-    static let landscapeFrame = CGRect(x: 0, y: 0, width: max(ScreenBounds.size.width, ScreenBounds.size.height), height: min(ScreenBounds.size.width, ScreenBounds.size.height))
-    
-    var visibleInterfaceOrientation: UIInterfaceOrientation?
-    
-    let supportedOrientations: UIInterfaceOrientationMask = .allButUpsideDown
+    let landscapeFrame = CGRect(x: 0, y: 0, width: max(ScreenBounds.size.width, ScreenBounds.size.height), height: min(ScreenBounds.size.width, ScreenBounds.size.height))
     
     var isFullScreen = false
     
@@ -89,6 +139,7 @@ class ANVideoPlayer: NSObject {
     override init() {
         super.init()
         Bundle.main.loadNibNamed("ANVideoPlayer", owner: self, options: nil)
+        playerView.delegate = self
         let audioSession = AVAudioSession.sharedInstance()
         try? audioSession.setCategory(AVAudioSessionCategoryPlayback)
         
@@ -108,6 +159,9 @@ class ANVideoPlayer: NSObject {
         player = nil
         timeObserver = nil
         NotificationCenter.default.removeObserver(self)
+        pauseContent { 
+            
+        }
     }
     
     func loadVideo(streamURL: URL?) throws {
@@ -128,6 +182,46 @@ class ANVideoPlayer: NSObject {
         playerItem = AVPlayerItem.init(asset: asset)
         player = AVPlayer.init(playerItem: playerItem)
         playerView.playerLayerView.player = player
+    }
+    
+    private func setLoading(_ loading: Bool) {
+        if loading {
+            playerView.activityIndicator.startAnimating()
+        } else {
+            playerView.activityIndicator.stopAnimating()
+        }
+    }
+    
+    private func pauseContent(completionHandler: @escaping () -> Void) {
+        switch playerItem!.status {
+        case .failed:
+            state = .ANVideoPlayerStateError
+            return
+        case .unknown:
+            state = .ANVideoPlayerStateContentLoading
+            return
+        default:
+            print("")
+        }
+        
+        switch player!.status {
+        case .failed:
+            state = .ANVideoPlayerStateError
+            return
+        case .unknown:
+            state = .ANVideoPlayerStateContentLoading
+            return
+        default:
+            print("")
+        }
+        
+        switch state {
+        case .ANVideoPlayerStateContentLoading, .ANVideoPlayerStateContentPlaying, .ANVideoPlayerStateContentPaused, .ANVideoPlayerStateSuspend, .ANVideoPlayerStateError:
+            state = .ANVideoPlayerStateContentPaused
+            completionHandler()
+        default:
+            print("")
+        }
     }
     
     private func clearPlayer() {
@@ -170,9 +264,10 @@ class ANVideoPlayer: NSObject {
         switch state {
         case .ANVideoPlayerStateContentPaused:
             print("")
-        case .ANVideoPlayerStateContentLoading:
-            print("")
-        case .ANVideoPlayerStateError:
+        case .ANVideoPlayerStateContentLoading, .ANVideoPlayerStateError:
+            pauseContent(completionHandler: { [weak self] in
+                self?.seekToZeroDuration()
+            })
             print("")
         default:
             print("")
@@ -180,14 +275,19 @@ class ANVideoPlayer: NSObject {
     }
     
     private func playContent() {
-//        if state == .ANVideoPlayerStateContentPaused {
-//            
-//        }
-//        
-//        if state {
-//            <#code#>
-//        }
-        seekToZeroDuration()
+        if state == .ANVideoPlayerStateContentPaused {
+            if playerView.scrubber.value >= playerView.scrubber.maximumValue {
+               seekToZeroDuration()
+            }
+            state = .ANVideoPlayerStateContentPlaying
+        }
+        
+        if state == .ANVideoPlayerStateContentLoading {
+            if playerView.scrubber.value >= playerView.scrubber.maximumValue {
+                seekToZeroDuration()
+            }
+            state = .ANVideoPlayerStateContentPlaying
+        }
     }
     
     private func seekToZeroDuration() {
@@ -199,31 +299,85 @@ class ANVideoPlayer: NSObject {
     }
     
     @objc private func playerDidPlayToEnd(_ notification: Notification) {
-        
+        pauseContent {
+        }
     }
     
     @objc private func orientationChanged(_ notification: Notification) {
+        if playerView.state == .ANVideoPlayerViewStateWindow {
+            return;
+        }
+        let device = notification.object as! UIDevice
         
+        var rotateToOrientation: UIInterfaceOrientation?
+
+        switch device.orientation {
+        case .portrait:
+            rotateToOrientation = UIInterfaceOrientation.portrait
+            playerView.state = .ANVideoPlayerViewStatePortrait
+        case .portraitUpsideDown:
+            rotateToOrientation = UIInterfaceOrientation.portraitUpsideDown
+        case .landscapeLeft:
+            rotateToOrientation = UIInterfaceOrientation.landscapeRight
+            playerView.state = .ANVideoPlayerViewStateLandscape
+        case .landscapeRight:
+            rotateToOrientation = UIInterfaceOrientation.landscapeLeft
+            playerView.state = .ANVideoPlayerViewStateLandscape
+        default:
+            print("")
+        }
+        if let rotate = rotateToOrientation {
+            if rotate == UIInterfaceOrientation.portrait || rotate == UIInterfaceOrientation.landscapeLeft || rotate == UIInterfaceOrientation.landscapeRight {
+                performOrientationChange(deviceOrientation: rotate)
+            }
+        }
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let newObject = object as? AVPlayer {
-            if newObject == player {
-                let status = player!.status
-                switch status {
-                case .readyToPlay:
-                    if playerItem!.status == AVPlayerItemStatus.readyToPlay {
-                        NotificationCenter.default.post(name: ANVideoPlayerItemReadyToPlay, object: nil)
-                    }
-                case .failed:
-                    NotificationCenter.default.post(name: ANVideoPlayerItemStatusFailed, object: nil)
-                    state = .ANVideoPlayerStateError
-                default:
-                    print("")
+    private func performOrientationChange(deviceOrientation: UIInterfaceOrientation){
+        let degrees = degreesForOrientation(deviceOrientation: deviceOrientation)
+        UIView.animate(withDuration: 0.3) {
+            var viewBounds: CGRect?
+            if deviceOrientation.isLandscape {
+                viewBounds = CGRect(x: 0, y: 0, width: self.landscapeFrame.size.width, height: self.landscapeFrame.size.height)
+            } else {
+                viewBounds = CGRect(x: 0, y: 0, width: self.portraitFrame.size.width, height: self.portraitFrame.size.height)
+            }
+
+            self.playerView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI * Double(degrees)) / 180.0)
+            self.playerView.bounds = viewBounds!
+            self.playerView.setFrameOriginX(0.0)
+            self.playerView.setFrameOriginY(0.0)
+            
+            let wvFrame = self.playerView.superview?.frame
+            if var frame = wvFrame {
+                if frame.origin.y > 0{
+                    frame.size.height = ScreenBounds.size.height
+                    frame.origin.y = 0.0
+                    self.playerView.frame = frame
                 }
             }
         }
-        
+        playerView.fullScreenButton.isSelected = deviceOrientation.isLandscape
+        isFullScreen = deviceOrientation.isLandscape
+    }
+    
+    private func degreesForOrientation(deviceOrientation: UIInterfaceOrientation) -> CGFloat {
+        switch deviceOrientation {
+        case .portrait:
+            return 0.0;
+        case .landscapeRight:
+            return 90.0
+        case .landscapeLeft:
+            return -90.0
+        case .portraitUpsideDown:
+            return 180.0
+        default:
+            print("")
+        }
+        return 0.0
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let newObject = object as? AVPlayerItem {
             if newObject == playerItem {
                 if keyPath == "status" {
@@ -241,10 +395,15 @@ class ANVideoPlayer: NSObject {
                     }
                 }
                 if keyPath == "loadedTimeRanges" {
+                    let timeInterval = availableDuration()
+                    let info = ["loadedTimeRanges" : timeInterval]
+                    NotificationCenter.default.post(name: ANVideoPlayerItemLoadedTimeRanges, object: nil, userInfo: info)
                     
                 }
                 if keyPath == "playbackBufferEmpty" {
-                    
+                    if playerItem!.isPlaybackBufferEmpty {
+                        state = .ANVideoPlayerStateContentLoading
+                    }
                 }
                 if keyPath == "playbackLikelyToKeepUp" {
                     if playerItem!.isPlaybackLikelyToKeepUp && state == .ANVideoPlayerStateContentLoading {
@@ -253,6 +412,96 @@ class ANVideoPlayer: NSObject {
                 }
             }
         }
+
+        if let newObject = object as? AVPlayer {
+            if newObject == player {
+                let status = player!.status
+                switch status {
+                case .readyToPlay:
+                    if playerItem!.status == AVPlayerItemStatus.readyToPlay {
+                        NotificationCenter.default.post(name: ANVideoPlayerItemReadyToPlay, object: nil)
+                    }
+                case .failed:
+                    NotificationCenter.default.post(name: ANVideoPlayerItemStatusFailed, object: nil)
+                    state = .ANVideoPlayerStateError
+                default:
+                    print("")
+                }
+            }
+        }
+    }
+    
+    private func availableDuration() -> TimeInterval {
+        let loadedTimeRanges = playerItem!.loadedTimeRanges
+        let timeRange = loadedTimeRanges.first!.timeRangeValue
+        let startSeconds = CMTimeGetSeconds(timeRange.start)
+        let durationSeconds = CMTimeGetSeconds(timeRange.duration)
+        let result = startSeconds + durationSeconds
+        return result
+    }
+    
+    func closeButtonTapped() {
+        delegate?.videoPlayer(self, closeButtonClick: playerView.closeButton)
+    }
+    
+    func windowCloseButtonTapped() {
+        delegate?.videoPlayer(self, closeButtonClick: playerView.windowCloseButton)
+    }
+    
+    func fullScreenButtonTapped() {
+        isFullScreen = playerView.fullScreenButton.isSelected
+        if isFullScreen {
+            performOrientationChange(deviceOrientation: .landscapeRight)
+            playerView.state = .ANVideoPlayerViewStateLandscape
+        } else {
+            performOrientationChange(deviceOrientation: .portrait)
+            playerView.state = .ANVideoPlayerViewStatePortrait
+        }
+    }
+    
+    func bigPlayButtonTapped() {
+        if !playerView.bigPlayButton.isSelected {
+            playContent()
+        } else {
+            if state == .ANVideoPlayerStateContentPlaying {
+                pauseContent {
+                    
+                }
+            }
+        }
+    }
+    
+    func playButtonTapped()
+    {
+        if !playerView.bigPlayButton.isSelected {
+            playContent()
+        } else {
+            if state == .ANVideoPlayerStateContentPlaying {
+                pauseContent {
+                    
+                }
+            }
+        }
+    }
+    
+    func playViewTapped() {
+        
+    }
+    
+    func scrubberBegin() {
+        pauseContent {
+            
+        }
+    }
+    
+    func scrubberEnd() {
+        state = .ANVideoPlayerStateContentLoading
+        player?.an_seek(to: Double(playerView.scrubber.value), completionHandler: { [weak self] finished in
+            if finished {
+                self?.playContent()
+            }
+        })
     }
 
+    
 }

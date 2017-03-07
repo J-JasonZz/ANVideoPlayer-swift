@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,8 +24,8 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="exE-kr-QOv">
                                 <rect key="frame" x="164" y="318" width="46" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="KcF-WY-tsX"/>
-                                    <constraint firstAttribute="width" constant="46" id="ayr-Q3-sXl"/>
+                                    <constraint firstAttribute="width" constant="46" id="5o2-di-9nv"/>
+                                    <constraint firstAttribute="height" constant="30" id="E58-JB-ocn"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <connections>
@@ -36,9 +35,8 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="exE-kr-QOv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="148" id="91Q-wB-HtM"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="exE-kr-QOv" secondAttribute="trailing" constant="149" id="Ga5-yS-m5s"/>
-                            <constraint firstItem="exE-kr-QOv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="298" id="sdN-Tv-SQw"/>
+                            <constraint firstItem="exE-kr-QOv" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="bKL-Qc-DLn"/>
+                            <constraint firstItem="exE-kr-QOv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="o9H-kl-hmn"/>
                         </constraints>
                     </view>
                 </viewController>
