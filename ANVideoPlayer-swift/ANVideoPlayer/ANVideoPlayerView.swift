@@ -14,7 +14,7 @@ enum ANVideoPlayerViewState {
     case ANVideoPlayerViewStateWindow // 小窗播放
 }
 
-protocol ANVideoPlayerViewDelegate {
+protocol ANVideoPlayerViewDelegate: NSObjectProtocol {
     func closeButtonTapped() // 关闭按钮点击
     func windowCloseButtonTapped() // 小窗状态关闭按钮点击
     func fullScreenButtonTapped() // 全屏按钮点击
@@ -100,7 +100,7 @@ class ANVideoPlayerView: UIView {
     // 窗口播放模式关闭
     @IBOutlet weak var windowCloseButton: UIButton!
     
-    var delegate: ANVideoPlayerViewDelegate?
+    weak var delegate: ANVideoPlayerViewDelegate?
     
     
     var isControlsHidden = false
@@ -151,6 +151,12 @@ class ANVideoPlayerView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(durationDidLoad(_:)), name: ANVideoPlayerDurationDidLoad, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(scrubberValueUpdated(_:)), name: ANVideoPlayerScrubberValueUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loadedTimeRangesUpdate(_:)), name: ANVideoPlayerItemLoadedTimeRanges, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        stopControlsTimer()
+        print(self)
     }
     
     private func startControlsTimer() {
@@ -248,7 +254,7 @@ class ANVideoPlayerView: UIView {
         if frame.origin.x >= 50.0 {
             state = .ANVideoPlayerViewStateWindow
             UIView.animate(withDuration: 0.3, animations: { 
-                self.frame = CGRect.init(x: ScreenBounds.size.width - 15.0 - self.windowDisplayWidth, y: ScreenBounds.size.height - 45.0 - self.windowDisplayHeigth, width: self.windowDisplayWidth, height: self.windowDisplayHeigth)
+                self.frame = CGRect(x: ScreenBounds.size.width - 15.0 - self.windowDisplayWidth, y: ScreenBounds.size.height - 45.0 - self.windowDisplayHeigth, width: self.windowDisplayWidth, height: self.windowDisplayHeigth)
             }, completion: { finished in
                 self.isSwiping = false
             })
@@ -405,7 +411,7 @@ class ANVideoPlayerView: UIView {
     }
     
     private func updateTimeLabel() {
-        timeLabel.text = String.init(format: "%@/%@", time(from: Int(self.scrubber.value)), time(from: Int(self.scrubber.maximumValue)))
+        timeLabel.text = String(format: "%@/%@", time(from: Int(self.scrubber.value)), time(from: Int(self.scrubber.maximumValue)))
     }
     
     private func time(from seconds: Int) -> String {
@@ -413,9 +419,9 @@ class ANVideoPlayerView: UIView {
         let minutes = (seconds / 60) % 60
         let secs = seconds % 60
         if hours > 0 {
-            return String.init(format: "%01d:%02d:%02d", hours, minutes, secs)
+            return String(format: "%01d:%02d:%02d", hours, minutes, secs)
         } else {
-            return String.init(format: "%02d:%02d", minutes, secs)
+            return String(format: "%02d:%02d", minutes, secs)
         }
     }
 }

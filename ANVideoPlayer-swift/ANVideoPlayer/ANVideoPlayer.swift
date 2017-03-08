@@ -23,7 +23,7 @@ enum ANVideoPlayerError: Error {
     case InvalidStreamUrl //无效的链接
 }
 
-protocol ANVideoPlayerDelegate {
+protocol ANVideoPlayerDelegate: NSObjectProtocol {
     func videoPlayer(_ videoPlayer: ANVideoPlayer, closeButtonClick closeButton: UIButton)
 }
 
@@ -32,7 +32,7 @@ class ANVideoPlayer: NSObject, ANVideoPlayerViewDelegate {
     
     @IBOutlet var playerView: ANVideoPlayerView!
     
-    var delegate: ANVideoPlayerDelegate?
+    weak var delegate: ANVideoPlayerDelegate?
     
     
     var player: AVPlayer? {
@@ -43,8 +43,8 @@ class ANVideoPlayer: NSObject, ANVideoPlayerViewDelegate {
         
         didSet {
             player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.new, context: nil)
-            timeObserver = player?.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 1), queue: DispatchQueue.main, using: { [unowned self] time in
-                self.periodicTimeObserver(time: time)
+            timeObserver = player?.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 1), queue: DispatchQueue.main, using: { [weak self] time in
+                self?.periodicTimeObserver(time: time)
             })
         }
     }
@@ -150,18 +150,19 @@ class ANVideoPlayer: NSObject, ANVideoPlayerViewDelegate {
     }
     
     deinit {
+        timeObserver = nil
+        NotificationCenter.default.removeObserver(self)
         playerItem?.removeObserver(self, forKeyPath: "status")
         playerItem?.removeObserver(self, forKeyPath: "loadedTimeRanges")
         playerItem?.removeObserver(self, forKeyPath: "playbackBufferEmpty")
         playerItem?.removeObserver(self, forKeyPath: "playbackLikelyToKeepUp")
         player?.removeObserver(self, forKeyPath: "status")
-        playerItem = nil
-        player = nil
-        timeObserver = nil
-        NotificationCenter.default.removeObserver(self)
-        pauseContent { 
+        pauseContent {
             
         }
+        playerItem = nil
+        player = nil
+        print(self)
     }
     
     func loadVideo(streamURL: URL?) throws {
