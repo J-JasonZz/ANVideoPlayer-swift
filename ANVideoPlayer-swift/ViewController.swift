@@ -8,9 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, ANVideoPlayerDelegate {
-
-    var player: ANVideoPlayer?
+class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,17 +21,9 @@ class ViewController: UIViewController, ANVideoPlayerDelegate {
     }
 
     @IBAction func buttonClick(_ sender: Any) {
-        player = ANVideoPlayer()
-        player!.playerView.frame = ScreenBounds
-        player!.isLive = false
-        player?.delegate = self
-        UIApplication.shared.keyWindow?.addSubview(player!.playerView)
-        try? player!.loadVideo(streamURL: URL.init(string: "http://baobab.wdjcdn.com/14573563182394.mp4"))
-    }
-    
-    func videoPlayer(_ videoPlayer: ANVideoPlayer, closeButtonClick closeButton: UIButton) {
-        player?.playerView.removeFromSuperview()
-        player = nil
+//        ANVideoPlayerUtil.shareInstance.playerVideo(streamURL: URL(string: "http://baobab.wdjcdn.com/14573563182394.mp4"), isLive:false)
+        let controller = DemoViewController()
+        navigationController?.pushViewController(controller, animated: true)
     }
 
 }
