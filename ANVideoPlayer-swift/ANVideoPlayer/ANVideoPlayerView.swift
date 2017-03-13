@@ -9,9 +9,9 @@
 import UIKit
 
 enum ANVideoPlayerViewState {
-    case ANVideoPlayerViewStatePortrait // 竖屏播放
-    case ANVideoPlayerViewStateLandscape // 横屏播放
-    case ANVideoPlayerViewStateWindow // 小窗播放
+    case portrait // 竖屏播放
+    case landscape // 横屏播放
+    case window // 小窗播放
 }
 
 protocol ANVideoPlayerViewDelegate: NSObjectProtocol {
@@ -30,21 +30,21 @@ class ANVideoPlayerView: UIView {
     let windowDisplayWidth: CGFloat = 170.0
     let windowDisplayHeigth: CGFloat = 170.0 / (16.0 / 9.0)
     // 播放器展示状态(默认竖屏)
-    var state = ANVideoPlayerViewState.ANVideoPlayerViewStatePortrait {
+    var state = ANVideoPlayerViewState.portrait {
         willSet {
             switch newValue {
-            case .ANVideoPlayerViewStatePortrait:
+            case .portrait:
                 windowCloseButton.isHidden = true
-                if state == .ANVideoPlayerViewStateWindow {
+                if state == .window {
                     controlView.isHidden = false
                     isControlsHidden = false
                 }
                 windowButton.isHidden = false
                 UIApplication.shared.isStatusBarHidden = true
                 startControlsTimer()
-            case .ANVideoPlayerViewStateLandscape:
+            case .landscape:
                 windowButton.isHidden = true
-            case .ANVideoPlayerViewStateWindow:
+            case .window:
                 windowCloseButton.isHidden = false
                 controlView.isHidden = true
                 isControlsHidden = true
@@ -200,11 +200,11 @@ class ANVideoPlayerView: UIView {
     }
     
     func playerViewTapHandle(_ playerViewTap: UITapGestureRecognizer) {
-        if state == .ANVideoPlayerViewStateWindow {
+        if state == .window {
             UIView.animate(withDuration: 0.3, animations: { 
                 self.frame = ScreenBounds
             }, completion: { finished in
-                self.state = .ANVideoPlayerViewStatePortrait
+                self.state = .portrait
             })
         } else {
             controlView.isHidden = !controlView.isHidden
@@ -216,21 +216,21 @@ class ANVideoPlayerView: UIView {
     func swipePanGestureHandler(_ panGesture: UIPanGestureRecognizer) {
         let translation = panGesture.translation(in: self)
         if panGesture.state == .began {
-            if state == .ANVideoPlayerViewStatePortrait || state == .ANVideoPlayerViewStateWindow {
+            if state == .portrait || state == .window {
                 startPanPlayerView()
             }
         } else if (panGesture.state == .cancelled || panGesture.state == .ended) {
-            if state == .ANVideoPlayerViewStatePortrait {
+            if state == .portrait {
                 endPanPlayerViewWhenPortrait()
             }
-            if state == .ANVideoPlayerViewStateWindow {
+            if state == .window {
                 endPanPlayerViewWhenWindow()
             }
         } else if (panGesture.state == .changed) {
-            if state == .ANVideoPlayerViewStatePortrait {
+            if state == .portrait {
                 panPlayerViewWhenPortraitWithPanGestureDistance(translation.x)
             }
-            if state == .ANVideoPlayerViewStateWindow {
+            if state == .window {
                 panPlayerViewWhenWindowWithPanGestureTranslation(translation)
             }
         }
@@ -240,7 +240,7 @@ class ANVideoPlayerView: UIView {
         if isSwiping {
             return;
         }
-        if state == .ANVideoPlayerViewStatePortrait {
+        if state == .portrait {
             UIApplication.shared.isStatusBarHidden = false
         }
         isSwiping = true
@@ -252,7 +252,7 @@ class ANVideoPlayerView: UIView {
         }
         
         if frame.origin.x >= 50.0 {
-            state = .ANVideoPlayerViewStateWindow
+            state = .window
             UIView.animate(withDuration: 0.3, animations: { 
                 self.frame = CGRect(x: ScreenBounds.size.width - 15.0 - self.windowDisplayWidth, y: ScreenBounds.size.height - 45.0 - self.windowDisplayHeigth, width: self.windowDisplayWidth, height: self.windowDisplayHeigth)
             }, completion: { finished in
@@ -328,7 +328,7 @@ class ANVideoPlayerView: UIView {
     
     @IBAction func windowButtonClick(_ sender: Any) {
         isSwiping = true
-        state = .ANVideoPlayerViewStateWindow
+        state = .window
         UIView.animate(withDuration: 0.3, animations: { 
             self.frame = CGRect(x: ScreenBounds.size.width - 15.0 - self.windowDisplayWidth, y: ScreenBounds.size.height - self.windowDisplayHeigth - 45.0, width: self.windowDisplayWidth, height: self.windowDisplayHeigth)
         }) { finished in

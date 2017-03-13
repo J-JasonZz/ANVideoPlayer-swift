@@ -21,7 +21,6 @@ class ViewController: UIViewController {
     }
 
     @IBAction func buttonClick(_ sender: Any) {
-//        ANVideoPlayerUtil.shareInstance.playerVideo(streamURL: URL(string: "http://baobab.wdjcdn.com/14573563182394.mp4"), isLive:false)
         let controller = DemoViewController()
         navigationController?.pushViewController(controller, animated: true)
     }
